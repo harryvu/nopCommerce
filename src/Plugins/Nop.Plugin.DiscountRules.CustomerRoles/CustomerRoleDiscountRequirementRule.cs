@@ -68,7 +68,8 @@ namespace Nop.Plugin.DiscountRules.CustomerRoles
 
             //result is valid if the customer belongs to the restricted role
             result.IsValid = request.Customer.CustomerRoles.Any(role => role.Id == restrictedRoleId && role.Active);
-
+            if (!result.IsValid)
+                result.UserError = _localizationService.GetResource("Plugins.DiscountRules.CustomerRoles.NotAllowed");
             return result;
         }
 
@@ -95,7 +96,7 @@ namespace Nop.Plugin.DiscountRules.CustomerRoles
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.Fields.CustomerRole", "Required customer role");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.Fields.CustomerRole.Hint", "Discount will be applied if customer is in the selected customer role.");
             _localizationService.AddOrUpdatePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.Fields.CustomerRole.Select", "Select customer role");
-
+            _localizationService.AddOrUpdatePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.NotAllowed", "Sorry, your role is not allowed to use this discount code");
             base.Install();
         }
 
@@ -116,6 +117,7 @@ namespace Nop.Plugin.DiscountRules.CustomerRoles
             _localizationService.DeletePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.Fields.CustomerRole");
             _localizationService.DeletePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.Fields.CustomerRole.Hint");
             _localizationService.DeletePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.Fields.CustomerRole.Select");
+            _localizationService.DeletePluginLocaleResource("Plugins.DiscountRules.CustomerRoles.NotAllowed");
 
             base.Uninstall();
         }
